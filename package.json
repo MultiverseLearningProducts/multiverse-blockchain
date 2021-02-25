@@ -1,0 +1,29 @@
+{
+  "name": "multiverse-blockchain",
+  "version": "0.1.0",
+  "description": "Simple blockchain in javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/MultiverseLearningProducts/multiverse-blockchain.git"
+  },
+  "keywords": [
+    "blockchain"
+  ],
+  "author": "bmordan",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/MultiverseLearningProducts/multiverse-blockchain/issues"
+  },
+  "homepage": "https://github.com/MultiverseLearningProducts/multiverse-blockchain#readme",
+  "devDependencies": {
+    "jest": "^26.6.3"
+  },
+  "dependencies": {
+    "atob": "^2.1.2",
+    "btoa": "^1.2.1"
+  }
+}
