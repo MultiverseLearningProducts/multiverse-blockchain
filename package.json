@@ -1,6 +1,6 @@
 {
   "name": "multiverse-blockchain",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple blockchain in javascript",
   "main": "index.js",
   "scripts": {
