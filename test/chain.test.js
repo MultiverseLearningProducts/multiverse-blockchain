@@ -64,4 +64,16 @@ describe('Chain', () => {
         const chain = new Chain(base64)
         expect(chain[1].data.type.of.value.very).toBe('nested')    
     })
+
+    test('you will want to find things from the end of the chain', () => {
+        const chain = new Chain()
+        const d1 = {val: 10}
+        const d2 = {val: 20}
+        const d3 = {val: 30}
+        const d4 = {val: 10}
+        chain.add(d1).add(d2).add(d3).add(d4)
+        const block = chain.find(b => b.data.val === 10)
+        expect(block.hash).toBe(chain[3].hash)
+        expect(chain[1].data.val).toBe(20)
+    })
 })
