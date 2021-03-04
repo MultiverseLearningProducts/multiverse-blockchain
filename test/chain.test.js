@@ -9,11 +9,17 @@ describe('Chain', () => {
         expect(chain.length).toBe(2)
     })
 
+    test('your blocks have to have a type', () => {
+        const chain = new Chain()
+        const d1 = {noType: 'data 1'}
+        expect(() => chain.add(d1)).toThrow()
+    })
+
     test('you can mine the chain', () => {
         const chain = new Chain()
-        const d1 = {val: 10}
-        const d2 = {val: 20}
-        const d3 = {val: 30}
+        const d1 = {type: 'value', val: 10}
+        const d2 = {type: 'value', val: 20}
+        const d3 = {type: 'value', val: 30}
         chain.add(d1).add(d2).add(d3)
         const sum = chain.reduce((sum, block) => {
             return sum + block.data.val
@@ -23,20 +29,20 @@ describe('Chain', () => {
 
     test('you can validate the chain', () => {
         const chain = new Chain()
-        const d1 = {val: 10}
-        const d2 = {val: 20}
-        const d3 = {val: 30}
+        const d1 = {type: 'value', val: 10}
+        const d2 = {type: 'value', val: 20}
+        const d3 = {type: 'value', val: 30}
         chain.add(d1).add(d2).add(d3)
         expect(chain.integrity()).toBeTruthy()
-        chain[2].data = {val: 21}
+        chain[2].data = {type: 'value', val: 21}
         expect(chain.integrity()).toBe(false)
     })
 
     test('you can\'t break the chain', () => {
         const chain = new Chain()
-        const d1 = {val: 10}
-        const d2 = {val: 20}
-        const d3 = {val: 30}
+        const d1 = {type: 'value', val: 10}
+        const d2 = {type: 'value', val: 20}
+        const d3 = {type: 'value', val: 30}
         chain.add(d1).add(d2).add(d3)
         expect(chain.copyWithin() instanceof Error).toBe(true)
         expect(chain.pop() instanceof Error).toBe(true)
@@ -50,9 +56,9 @@ describe('Chain', () => {
 
     test('stringify the chain for storage', () => {
         const chain = new Chain()
-        const d1 = {val: 10}
+        const d1 = {type: 'value', val: 10}
         chain.add(d1)
-        expect(chain.stringify().length).toBe(168)
+        expect(chain.stringify().length).toBe(188)
     })
 
     test('you can initialize a chain from a base64 encoded string', () => {
@@ -67,13 +73,23 @@ describe('Chain', () => {
 
     test('you will want to find things from the end of the chain', () => {
         const chain = new Chain()
-        const d1 = {val: 10}
-        const d2 = {val: 20}
-        const d3 = {val: 30}
-        const d4 = {val: 10}
+        const d1 = {type: 'value', val: 10}
+        const d2 = {type: 'value', val: 20}
+        const d3 = {type: 'value', val: 30}
+        const d4 = {type: 'value', val: 10}
         chain.add(d1).add(d2).add(d3).add(d4)
         const block = chain.find(b => b.data.val === 10)
         expect(block.hash).toBe(chain[3].hash)
         expect(chain[1].data.val).toBe(20)
+    })
+
+    test('you can get all the types in the chain', () => {
+        const chain = new Chain()
+        const d1 = {type: 'email', email: 'test@test.com'}
+        const d2 = {type: 'value', val: 20}
+        const d3 = {type: 'value', val: 30}
+        const d4 = {type: 'transaction', from: 10, to: 5}
+        chain.add(d1).add(d2).add(d3).add(d4)
+        expect(chain.types()).toEqual(['email', 'value', 'transaction'])       
     })
 })
